@@ -17,7 +17,7 @@ def best(pop, scores, k):
         p.append([scores[i], pop[i]])
     p.sort()
     p.reverse()
-    d2 = [item[1] for item in p]
+    d2 = [item for item in p]
     return d2[k]
 
 

@@ -1,12 +1,14 @@
 # genetic algorithm search for continuous function optimization
 from numpy.random import randint
 from numpy.random import rand
+import random
 from algorithms.functions import beale_function
 import methods.mutation as mutation
 import methods.cross as cross
 import methods.selection as select
 from ui.UserInputs import UserInputs
 from statistics import stdev, mean
+import numpy as np
 
 
 def inversion(bitstring: list, r_inve):
@@ -34,8 +36,11 @@ def decode(bounds, n_bits, bitstring):
     return decoded
 
 def initialize_pop(bounds, pop_ammount):
-    temp = [rand(bounds, 2) for _ in range(pop_ammount)]
-    return temp
+    pop = [[random.uniform(-4.5, 4.5), random.uniform(-4.5, 4.5)] for _ in range(pop_ammount)]
+    print(pop)
+    print(np.size(pop))
+    print(np.shape(pop))
+    return pop
 
 def genetic_algorithm(user_input):
     bounds = [[user_input.begin_range_a, user_input.end_range_b], [user_input.begin_range_a, user_input.end_range_b]]
@@ -47,7 +52,7 @@ def genetic_algorithm(user_input):
     for gen in range(user_input.epochs_amount):
         scores = [beale_function(p) for p in pop]
         best_iter = scores[0]
-        for i in range(user_input.population_amount):
+        for i in range(int(np.size(pop)/2)):
             if user_input.maximum:
                 if scores[i] > best_eval:
                     best, best_eval = pop[i], scores[i]
@@ -62,7 +67,6 @@ def genetic_algorithm(user_input):
                     best_iter = scores[i]
         gen_b_rows.append([str(gen), str(best_iter)])
         gen_avg_rows.append([str(gen), mean(scores)])
-        gen_std_dev_rows.append([str(gen), str(stdev(scores))])
         if user_input.selection_method == "Tournament":
             selected = [select.tournament(pop, scores, user_input.best_and_tournament_chromosome_amount) for _ in
                         range(user_input.population_amount)]
@@ -76,21 +80,19 @@ def genetic_algorithm(user_input):
         for i in range(0, user_input.population_amount, 2):
             p1, p2 = selected[i], selected[i + 1]
             if user_input.cross_method == "One Point Cross":
-                cross_result = cross.crossover(p1, p2, user_input.cross_probability)
+                cross_result = cross.averageCrossover(p1, p2, user_input.cross_probability)
             if user_input.cross_method == "Two Point Cross":
                 cross_result = cross.crossover2(p1, p2, user_input.cross_probability)
             if user_input.cross_method == "Three Point Cross":
                 cross_result = cross.crossover3(p1, p2, user_input.cross_probability)
             if user_input.cross_method == "Uniform Cross":
                 cross_result = cross.uniformCrossover(p1, p2)
-            for c in cross_result:
-                if user_input.mutation_method == "Edge":
-                    c = mutation.edge_mutation(c, user_input.mutation_probability)
-                if user_input.mutation_method == "One Point":
-                    c = mutation.op_mutation(c, user_input.mutation_probability)
-                if user_input.mutation_method == "Two Point":
-                    c = mutation.tp_mutation(c, user_input.mutation_probability)
-                c = inversion(c, user_input.inversion_probability)
+            if user_input.mutation_method == "Edge":
+                c = mutation.evenMutation(cross_result, user_input.mutation_probability)
+            if user_input.mutation_method == "One Point":
+                c = mutation.op_mutation(cross_result, user_input.mutation_probability)
+            if user_input.mutation_method == "Two Point":
+                c = mutation.tp_mutation(cross_result, user_input.mutation_probability)
                 children.append(c)
         pop = children
 

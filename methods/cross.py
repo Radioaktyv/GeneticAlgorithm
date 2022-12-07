@@ -30,17 +30,19 @@ def linearCrossover(p1, p2, minmax):
         return [output[2][1], output[1][1]]
 
 
-def blendCrossoverA(p1, p2, a):
-    d1 = abs(p1[0] - p2[0])
-    d2 = abs(p1[1] - p2[1])
-    x1n = rand(min(p1[0], p2[0]) - a * d1, max(p1[0], p2[0]) + a * d1)
-    y1n = rand(min(p1[1], p2[1]) - a * d1, max(p1[1], p2[1]) + a * d1)
+def blendCrossoverA(p1, p2, a, r_cross):
+    if rand() < r_cross:
+        d1 = abs(p1[0] - p2[0])
+        d2 = abs(p1[1] - p2[1])
+        x1n = rand(min(p1[0], p2[0]) - a * d1, max(p1[0], p2[0]) + a * d1)
+        y1n = rand(min(p1[1], p2[1]) - a * d1, max(p1[1], p2[1]) + a * d1)
 
-    x2n = rand(min(p1[0], p2[0]) - a * d2, max(p1[0], p2[0]) + a * d2)
-    y2n = rand(min(p1[1], p2[1]) - a * d2, max(p1[1], p2[1]) + a * d2)
-    xn = [x1n, y1n]
-    yn = [x2n, y2n]
-    return [xn, yn]
+        x2n = rand(min(p1[0], p2[0]) - a * d2, max(p1[0], p2[0]) + a * d2)
+        y2n = rand(min(p1[1], p2[1]) - a * d2, max(p1[1], p2[1]) + a * d2)
+        xn = [x1n, y1n]
+        yn = [x2n, y2n]
+        return [xn, yn]
+    return [p1, p2]
 
 
 def blendCrossoverAB(p1, p2, a, b):
@@ -55,8 +57,10 @@ def blendCrossoverAB(p1, p2, a, b):
     return [xn, yn]
 
 
-def averageCrossover(p1, p2):
-    x1n = (p1[0] + p2[0]) / 2
-    y1n = (p2[0] + p2[0]) / 2
-    xn = [x1n, y1n]
-    return xn
+def averageCrossover(p1, p2, r_cross):
+    if rand() < r_cross:
+        x1n = (p1[0] + p2[0]) / 2
+        y1n = (p2[0] + p2[0]) / 2
+        xn = [x1n, y1n]
+        return [x1n, y1n]
+    return [p1, p2]

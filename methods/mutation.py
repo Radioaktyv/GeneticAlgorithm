@@ -1,27 +1,21 @@
 from numpy.random import rand
+from numpy import random
+from random import randint
 
 
-def edge_mutation(bitstring, r_mut):
-    for i in range(len(bitstring)):
-        if rand() < r_mut:
-            bitstring[i] = 1 - bitstring[i]
-    return bitstring
+def evenMutation(p1, r_mut, bounds=[-4.5, 4.5]):
+    c1 = p1
+    if rand() < r_mut:
+        if randint(1, 2) == 1:
+            c1[0] = rand(bounds[0], bounds[1])
+        else:
+            c1[1] = rand(bounds[0], bounds[1])
+    return c1
 
 
-def op_mutation(bitstring, r_mut):
-    for i in range(1, len(bitstring) - 1):
-        if rand() < r_mut:
-            bitstring[i] = 1 - bitstring[i]
-            break
-    return bitstring
-
-
-def tp_mutation(bitstring, r_mut):
-    j = 0
-    for i in range(1, len(bitstring) - 1):
-        if rand() < r_mut:
-            bitstring[i] = 1 - bitstring[i]
-            j += 1
-        if j == 2:
-            break
-    return bitstring
+def gaussMutation(p1, r_mut):
+    if rand() < r_mut:
+        c1 = [p1[0] + random.normal(), p1[1] + random.normal()]
+        return c1
+    else:
+        return p1

@@ -33,29 +33,31 @@ def decode(bounds, n_bits, bitstring):
         decoded.append(value)
     return decoded
 
+def initialize_pop(bounds, pop_ammount):
+    temp = [rand(bounds, 2) for _ in range(pop_ammount)]
+    return temp
 
 def genetic_algorithm(user_input):
     bounds = [[user_input.begin_range_a, user_input.end_range_b], [user_input.begin_range_a, user_input.end_range_b]]
-    pop = [randint(0, 2, user_input.number_of_bits * len(bounds)).tolist() for _ in range(user_input.population_amount)]
-    best, best_eval = 0, beale_function(decode(bounds, user_input.number_of_bits, pop[0]))
+    pop = initialize_pop(bounds[0], user_input.population_amount)
+    best, best_eval = 0, beale_function(pop[0])
     gen_b_rows = []
     gen_avg_rows = []
     gen_std_dev_rows = []
     for gen in range(user_input.epochs_amount):
-        decoded = [decode(bounds, user_input.number_of_bits, p) for p in pop]
-        scores = [beale_function(d) for d in decoded]
+        scores = [beale_function(p) for p in pop]
         best_iter = scores[0]
         for i in range(user_input.population_amount):
             if user_input.maximum:
                 if scores[i] > best_eval:
                     best, best_eval = pop[i], scores[i]
-                    print(">%d, new best f(%s) = %f" % (gen, decoded[i], scores[i]))
+                    print(">%d, new best f(%s) = %f" % (gen, pop[i], scores[i]))
                 if scores[i] > best_iter:
                     best_iter = scores[i]
             else:
                 if scores[i] < best_eval:
                     best, best_eval = pop[i], scores[i]
-                    print(">%d, new best f(%s) = %f" % (gen, decoded[i], scores[i]))
+                    print(">%d, new best f(%s) = %f" % (gen, pop[i], scores[i]))
                 if scores[i] < best_iter:
                     best_iter = scores[i]
         gen_b_rows.append([str(gen), str(best_iter)])
@@ -93,9 +95,8 @@ def genetic_algorithm(user_input):
         pop = children
 
     print('Done!')
-    decoded = decode(bounds, user_input.number_of_bits, best)
-    print('f(%s) = %f' % (decoded, best_eval))
-    return [decoded, best_eval, gen_b_rows, gen_avg_rows, gen_std_dev_rows]
+    print('f(%s) = %f' % (best, best_eval))
+    return [best, best_eval, gen_b_rows, gen_avg_rows, gen_std_dev_rows]
 
 
 defaultUser = UserInputs(

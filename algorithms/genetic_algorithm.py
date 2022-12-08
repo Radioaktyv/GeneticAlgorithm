@@ -79,22 +79,24 @@ def genetic_algorithm(user_input):
             children.append(best)
         for i in range(0, user_input.population_amount, 2):
             p1, p2 = selected[i], selected[i + 1]
-            if user_input.cross_method == "One Point Cross":
+            if user_input.cross_method == "Arithmetic":
                 cross_result = cross.arithmeticCrossover(p1, p2, user_input.cross_probability)
-            if user_input.cross_method == "Two Point Cross":
-                cross_result = cross.crossover2(p1, p2, user_input.cross_probability)
-            if user_input.cross_method == "Three Point Cross":
-                cross_result = cross.crossover3(p1, p2, user_input.cross_probability)
-            if user_input.cross_method == "Uniform Cross":
-                cross_result = cross.uniformCrossover(p1, p2)
+            if user_input.cross_method == "Linear":
+                cross_result = cross.linearCrossover(p1, p2, user_input.maximum, user_input.cross_probability)
+            if user_input.cross_method == "BlendA":
+                cross_result = cross.blendCrossoverA(p1, p2, user_input.blend_crossover_alfa,
+                                                     user_input.cross_probability)
+            if user_input.cross_method == "BlendAB":
+                cross_result = cross.blendCrossoverAB(p1, p2, user_input.blend_crossover_alfa,
+                                                      user_input.blend_crossover_beta, user_input.cross_probability)
+            if user_input.cross_method == "Average":
+                cross_result = cross.averageCrossover(p1, p2, user_input.cross_probability)
             for c in cross_result:
-                if user_input.mutation_method == "Edge":
+                if user_input.mutation_method == "Even":
                     c = mutation.evenMutation(c, user_input.mutation_probability)
-                if user_input.mutation_method == "One Point":
-                    c = mutation.op_mutation(c, user_input.mutation_probability)
-                if user_input.mutation_method == "Two Point":
-                    c = mutation.tp_mutation(c, user_input.mutation_probability)
-                c = inversion(c, user_input.inversion_probability)
+                if user_input.mutation_method == "Gauss":
+                    c = mutation.gaussMutation(c, user_input.mutation_probability,
+                                               [user_input.begin_range_a, user_input.end_range_b])
                 children.append(c)
         pop = children
 
@@ -107,12 +109,12 @@ defaultUser = UserInputs(
     begin_range_a=-4.5,
     end_range_b=4.5,
     population_amount=100,
-    number_of_bits=16,
+    blend_crossover_alfa=16,
     epochs_amount=1000,
     best_and_tournament_chromosome_amount=3,
     cross_probability=0.5,
     mutation_probability=0.1,
-    inversion_probability=0.1,
+    blend_crossover_beta=0.1,
     selection_method="Best",
     cross_method="cross",
     mutation_method="mutate",

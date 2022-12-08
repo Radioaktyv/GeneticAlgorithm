@@ -26,7 +26,7 @@ def linearCrossover(p1, p2, minmax, r_cross):
         output.append([beale_function(V), V])
         output.append([beale_function(W), W])
         output.sort()
-        if minmax == 'min':
+        if not minmax:
             return [output[0][1], output[1][1]]
         else:
             return [output[2][1], output[1][1]]

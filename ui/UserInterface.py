@@ -81,12 +81,12 @@ class UserInterface(customtkinter.CTk):
         self.combobox_selection_method.grid(row=1, column=2, columnspan=1, pady=15, padx=15, sticky="we")
 
         self.combobox_cross_method = customtkinter.CTkComboBox(master=self.frame_right,
-                                                               values=["One Point Cross", "Two Point Cross",
-                                                                       "Three Point Cross", "Uniform Cross"])
+                                                               values=["Arithmetic", "Linear",
+                                                                       "BlendA", "BlendAB", "Average"])
         self.combobox_cross_method.grid(row=2, column=2, columnspan=1, pady=15, padx=15, sticky="we")
 
         self.combobox_mutation_method = customtkinter.CTkComboBox(master=self.frame_right,
-                                                                  values=["Edge", "One Point", "Two Point"])
+                                                                  values=["Even", "Gauss"])
         self.combobox_mutation_method.grid(row=3, column=2, columnspan=1, pady=15, padx=15, sticky="we")
 
         self.check_box_maximum = customtkinter.CTkCheckBox(master=self.frame_right,
@@ -110,37 +110,37 @@ class UserInterface(customtkinter.CTk):
                                                               placeholder_text="Population amount")
         self.entry_population_amount.grid(row=2, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
-        self.entry_number_of_bits = customtkinter.CTkEntry(master=self.frame_right,
-                                                           width=120,
-                                                           placeholder_text="Number of bits")
-        self.entry_number_of_bits.grid(row=3, column=0, columnspan=2, pady=15, padx=15, sticky="we")
-
         self.entry_epochs_amount = customtkinter.CTkEntry(master=self.frame_right,
                                                           width=120,
                                                           placeholder_text="Epochs amount")
-        self.entry_epochs_amount.grid(row=4, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+        self.entry_epochs_amount.grid(row=3, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
         self.entry_best_and_tournament_chromosome_amount = customtkinter.CTkEntry(
             master=self.frame_right,
             width=120,
             placeholder_text="Best and tournament chromosome amount")
         self.entry_best_and_tournament_chromosome_amount.grid(
-            row=5, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+            row=4, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
         self.entry_cross_probability_amount = customtkinter.CTkEntry(master=self.frame_right,
                                                                      width=120,
                                                                      placeholder_text="Cross probability")
-        self.entry_cross_probability_amount.grid(row=7, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+        self.entry_cross_probability_amount.grid(row=5, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
         self.entry_mutation_probability = customtkinter.CTkEntry(master=self.frame_right,
                                                                  width=120,
                                                                  placeholder_text="Mutation probability")
-        self.entry_mutation_probability.grid(row=8, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+        self.entry_mutation_probability.grid(row=6, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
-        self.entry_inversion_probability = customtkinter.CTkEntry(master=self.frame_right,
-                                                                  width=120,
-                                                                  placeholder_text="Inversion probability")
-        self.entry_inversion_probability.grid(row=9, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+        self.entry_blend_crossover_alfa = customtkinter.CTkEntry(master=self.frame_right,
+                                                                 width=120,
+                                                                 placeholder_text="Blend Crossover Alfa")
+        self.entry_blend_crossover_alfa.grid(row=8, column=0, columnspan=2, pady=15, padx=15, sticky="we")
+
+        self.entry_blend_crossover_beta = customtkinter.CTkEntry(master=self.frame_right,
+                                                                 width=120,
+                                                                 placeholder_text="Blend Crossover Beta")
+        self.entry_blend_crossover_beta.grid(row=9, column=0, columnspan=2, pady=15, padx=15, sticky="we")
 
         self.button_start = customtkinter.CTkButton(master=self.frame_right,
                                                     text="Start",
@@ -185,12 +185,12 @@ class UserInterface(customtkinter.CTk):
             float(self.entry_range_a.get()),
             float(self.entry_range_b.get()),
             int(self.entry_population_amount.get()),
-            int(self.entry_number_of_bits.get()),
+            float(self.entry_blend_crossover_alfa.get()),
             int(self.entry_epochs_amount.get()),
             int(self.entry_best_and_tournament_chromosome_amount.get()),
             float(self.entry_cross_probability_amount.get()),
             float(self.entry_mutation_probability.get()),
-            float(self.entry_inversion_probability.get()),
+            float(self.entry_blend_crossover_beta.get()),
             self.combobox_selection_method.get(),
             self.combobox_cross_method.get(),
             self.combobox_mutation_method.get(),

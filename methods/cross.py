@@ -64,7 +64,7 @@ def blendCrossoverAB(p1, p2, a, b, r_cross):
 def averageCrossover(p1, p2, r_cross):
     if rand() < r_cross:
         x1n = (p1[0] + p2[0]) / 2
-        y1n = (p2[0] + p2[0]) / 2
+        y1n = (p1[1] + p2[1]) / 2
         xn = [x1n, y1n]
-        return xn
+        return [xn, xn]
     return [p1, p2]

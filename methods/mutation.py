@@ -13,8 +13,16 @@ def evenMutation(p1, r_mut, bounds=[-4.5, 4.5]):
     return c1
 
 
-def gaussMutation(p1, r_mut):
+def gaussMutation(p1, r_mut, bounds=[-4.5, 4.5]):
     c1 = p1.copy()
     if rand() < r_mut:
         c1 = [p1[0] + random.normal(), p1[1] + random.normal()]
+        if c1[0] > bounds[1]:
+            c1[0] = bounds[1]
+        elif c1[0] < bounds[0]:
+            c1[0] = bounds[0]
+        if c1[1] > bounds[1]:
+            c1[1] = bounds[1]
+        elif c1[1] < bounds[0]:
+            c1[1] = bounds[0]
     return c1

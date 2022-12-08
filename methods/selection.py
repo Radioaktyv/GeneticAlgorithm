@@ -2,7 +2,6 @@
 from numpy.random import randint
 import random
 
-
 def tournament(pop, scores, k):
     selection_ix = randint(len(pop))
     for ix in randint(0, len(pop), k - 1):
@@ -19,7 +18,6 @@ def best(pop, scores, k):
     p.reverse()
     d2 = [item for item in p]
     return d2[k]
-
 
 def roulette(pop, scores):
     suma = 0
